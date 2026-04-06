@@ -25,14 +25,14 @@ const Login = ({ setTab }: Props) => {
 
     try {
       const response = await authAPI.login(email, password);
-      
+
       // Backend returns token on success, not a success flag
       if (response.token) {
         // Store token and user info
         localStorage.setItem("qm_token", response.token);
         localStorage.setItem("qm_user", response.email || email);
         localStorage.setItem("qm_username", response.username || email);
-        
+
         navigate("/dashboard");
       } else {
         setError(response.message || "Login failed");
@@ -54,7 +54,7 @@ const Login = ({ setTab }: Props) => {
   return (
     <div className="form-panel active">
       {error && <div className="error-message" style={{ color: "red", marginBottom: "10px" }}>{error}</div>}
-      
+
       <div className="field">
         <label>Email Id</label>
         <input
@@ -81,6 +81,20 @@ const Login = ({ setTab }: Props) => {
 
       <button className="btn-submit" onClick={handleLogin} disabled={loading}>
         {loading ? "Logging in..." : "Login"}
+      </button>
+
+      <button
+        className="btn-google"
+        onClick={() => {
+          window.location.href = "http://localhost:8081/oauth2/authorization/google";
+        }}
+      >
+        <img
+          src="https://developers.google.com/identity/images/g-logo.png"
+          alt="Google"
+          className="google-icon"
+        />
+        Continue with Google
       </button>
 
       <div className="switch-link">
